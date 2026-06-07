@@ -1,4 +1,13 @@
-class SessionModel {
+import 'dart:collection';
+
+final class SessionDataEntry extends LinkedListEntry<SessionDataEntry> {
+  String key;
+  dynamic value;
+
+  SessionDataEntry({required this.key, this.value});
+}
+
+final class SessionModel extends LinkedListEntry<SessionModel> {
   final String sessionId;
   final String userId;
   final String deviceId;
@@ -6,7 +15,7 @@ class SessionModel {
   final DateTime loginTime;
   DateTime lastActiveTime;
 
-  Map<String, dynamic> sessionData;
+  LinkedList<SessionDataEntry> sessionData;
 
   SessionModel({
     required this.sessionId,

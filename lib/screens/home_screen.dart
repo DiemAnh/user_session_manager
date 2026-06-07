@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final service = context.watch<SessionService>();
+    final sessionsList = service.sessions.toList();
 
     return Scaffold(
       appBar: AppBar(
@@ -48,8 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
               title: const Text('Single Device Mode'),
               value: service.singleDeviceMode,
               onChanged: (value) {
-                service.singleDeviceMode = value;
-                service.notifyListeners();
+                service.setSingleDeviceMode(value);
               },
             ),
 
@@ -69,9 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
             Expanded(
               child: ListView.builder(
-                itemCount: service.sessions.length,
+                itemCount: sessionsList.length,
                 itemBuilder: (context, index) {
-                  final session = service.sessions[index];
+                  final session = sessionsList[index];
 
                   return Card(
                     child: ListTile(

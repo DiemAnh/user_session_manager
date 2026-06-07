@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
@@ -10,6 +12,11 @@ class SessionService extends ChangeNotifier {
   bool singleDeviceMode = true;
 
   final uuid = Uuid();
+
+  void setSingleDeviceMode(bool value) {
+    singleDeviceMode = value;
+    notifyListeners();
+  }
 
   void login({
     required String userId,
@@ -25,7 +32,7 @@ class SessionService extends ChangeNotifier {
       deviceId: deviceId,
       loginTime: DateTime.now(),
       lastActiveTime: DateTime.now(),
-      sessionData: {},
+      sessionData: LinkedList<SessionDataEntry>(),
     );
 
     tree.insert(session);
@@ -59,7 +66,7 @@ class SessionService extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<SessionModel> get sessions {
+  LinkedList<SessionModel> get sessions {
     return tree.getAllSessions();
   }
 }

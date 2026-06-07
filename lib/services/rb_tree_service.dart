@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import '../models/rb_node.dart';
 import '../models/session_model.dart';
 
@@ -151,7 +153,7 @@ class RBTreeService {
     return null;
   }
 
-  void inorder(RBNode? node, List<SessionModel> result) {
+  void inorder(RBNode? node, LinkedList<SessionModel> result) {
     if (node == null) return;
 
     inorder(node.left, result);
@@ -159,21 +161,21 @@ class RBTreeService {
     inorder(node.right, result);
   }
 
-  List<SessionModel> getAllSessions() {
-    List<SessionModel> result = [];
+  LinkedList<SessionModel> getAllSessions() {
+    LinkedList<SessionModel> result = LinkedList<SessionModel>();
     inorder(root, result);
     return result;
   }
 
   void remove(String sessionId) {
-    List<SessionModel> sessions = getAllSessions();
-
-    sessions.removeWhere((e) => e.sessionId == sessionId);
+    LinkedList<SessionModel> sessions = getAllSessions();
 
     root = null;
 
     for (var s in sessions) {
-      insert(s);
+      if (s.sessionId != sessionId) {
+        insert(s);
+      }
     }
   }
 }
